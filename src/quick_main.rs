@@ -22,7 +22,7 @@
 /// ```
 #[macro_export]
 macro_rules! quick_main {
-    (COMMON $ret_value:expr) => {
+    ($main:expr) => {
         let ret_value: ::std::result::Result<(), _> = $ret_value;
         if let Err(e) = ret_value {
             println!("Error: {}", e);
@@ -36,16 +36,6 @@ macro_rules! quick_main {
             }
 
             ::std::process::exit(1);
-        }
-    };
-    (|| $main:block) => {
-        fn main() {
-            quick_main!(COMMON (|| $main)());
-        }
-    };
-    ($main:path) => {
-        fn main() {
-            quick_main!(COMMON $main());
         }
     };
 }
