@@ -16,9 +16,9 @@
 /// ```ignore
 /// # #[macro_use] extern crate error_chain;
 /// # error_chain! {}
-/// quick_main!(|| {
+/// quick_main!(|| -> Result<()> {
 ///     Err("error".into())
-/// }
+/// });
 /// ```
 ///
 /// You can also set the exit value of the process by returning a type that implements [`ExitCode`](trait.ExitCode.html):
@@ -38,8 +38,8 @@ macro_rules! quick_main {
         fn main() {
             ::std::process::exit(match $main() {
                 Ok(ret) => $crate::ExitCode::code(ret),
-                Err(e) => {
-                    let e: &$crate::ChainedError<ErrorKind=_> = &e;
+                Err(ref e) => {
+                    let e: &$crate::ChainedError<ErrorKind=_> = e;
                     println!("Error: {}", e);
 
                     for e in e.iter().skip(1) {

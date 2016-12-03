@@ -22,9 +22,9 @@ mod i32 {
     }
 }
 
-//mod closure {
-//    use super::*;
-//    quick_main!(|| {
-//        Err(Error::from("hello"))
-//    });
-//}
+mod closure {
+    use super::*;
+    quick_main!(|| -> Result<()> {
+        Ok(())
+    });
+}
