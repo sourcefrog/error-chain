@@ -19,23 +19,9 @@ mod errors {
 
 use errors::*;
 
-fn main() {
-    if let Err(ref e) = run() {
-        println!("error: {}", e);
-
-        for e in e.iter().skip(1) {
-            println!("caused by: {}", e);
-        }
-
-        // The backtrace is not always generated. Try to run this example
-        // with `RUST_BACKTRACE=1`.
-        if let Some(backtrace) = e.backtrace() {
-            println!("backtrace: {:?}", backtrace);
-        }
-
-        ::std::process::exit(1);
-    }
-}
+// Wrapper macro for a `main` with `Result` as return type. You may
+// want to set the `RUST_BACKTRACE` env variable to see a backtrace.
+quick_main!(run);
 
 // Most functions will return the `Result` type, imported from the
 // `errors` module. It is a typedef of the standard `Result` type
